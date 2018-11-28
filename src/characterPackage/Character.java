@@ -85,7 +85,6 @@ public class Character {
 	
 	public void attack(Character otherCharacter) {
 		Random attackDice = new Random();
-		int attack = attackDice.nextInt(20+1+this.characterClass.getMeleePower());
 		int dmg = attackDice.nextInt(this.characterClass.getDamageDie())+1;
 		if (this.alive == true && otherCharacter.isAlive()) {
 			if (this.hit(otherCharacter)) {
