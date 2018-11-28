@@ -103,7 +103,7 @@ public class Character {
 	private boolean hit(Character otherCharacter) {
 		boolean doesHit;
 		int attack = this.attackThrow();
-		if (attack >= otherCharacter.getArmorClass() || this.attackThrow() == 1)
+		if (attack >= otherCharacter.getArmorClass() || attack == 1)
 			if (attack == 1) {
 				this.crit(otherCharacter);
 				doesHit = true;
@@ -115,7 +115,8 @@ public class Character {
 				this.fumble(this.characterClass.getDamageDie(),this.characterClass.getType());
 				doesHit = false;
 			}
-			doesHit = false;
+			else 
+				doesHit = false;
 		return doesHit;
 	}
 

@@ -4,7 +4,10 @@ import java.util.Random;
 
 public enum CharClass {
 	
-	Wizard(4, 12,"Fireball", "Magic", "Physical", "Wizard"), Rogue(4, 8, "Backstab", "Shadow", "Light", "Rogue"), Paladin(5, 6, "Lay on Hands", "Light", "Shadow", "Paladin"), Fighter(6, 16, "Power Attack", "Physical", "Magic", "Fighter");
+	Wizard(4, 12,"Fireball", "Magic", "Physical", "Wizard"),
+	Rogue(4, 8, "Backstab", "Shadow", "Light", "Rogue"),
+	Paladin(5, 6, "Lay on Hands", "Light", "Shadow", "Paladin"),
+	Fighter(6, 16, "Power Attack", "Physical", "Magic", "Fighter");
 	
 	private String ability, type, immunity;
 	private int meleePower, damageDie;
@@ -12,7 +15,7 @@ public enum CharClass {
 	private static Random rnd = new Random();
 	
 	
-	private CharClass(int meleePower, int damageDie, String ability, String type, String immunty, String className) {
+	private CharClass(int meleePower, int damageDie, String ability, String type, String immunity, String className) {
 		this.meleePower = meleePower;
 		this.ability = ability;
 		this.immunity = immunity;
