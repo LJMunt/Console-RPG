@@ -8,12 +8,13 @@ import battlePackage.Terrain;
 
 public class Rpg_Tester {
 static PlayerParty party = new PlayerParty();
-static Character player = party.getParty()[0];
 	public static void main(String[] args) {
 		party.addChar();
+		Character player = party.getParty()[0];
 		Scanner scan = new Scanner(System.in);
 		Battlefield mainStage = new Battlefield(Terrain.getRandom(), player );
-		System.out.println("Welcome to the Console-RPG.\nPress 1 to start the battlemode with your character.\n"+
+		System.out.println("Welcome to the Console-RPG.\n"+
+				"Press 1 to start the battlemode with your character.\n"+
 				"Press 2 to create another character and add them to the party.\n"+
 				"Press 3 to list all the characters currently in your party.\n"+
 				"Press 4 to change your current character.\n"+
@@ -48,7 +49,11 @@ static Character player = party.getParty()[0];
 				for (int i = 0; i < party.MAX_SIZE ;i++) {
 					if (characterChoice.equalsIgnoreCase(party.getParty()[i].getName())) {
 						player = party.getParty()[i];
-						//TODO Geht nicht, Noel fragen.
+						/*TODO @Noel. Ich will das character Objekt (Player) mit einem der indexierten Character Objekte aus party tauschen.
+						 * Der Spieler soll einen Charakter aus der Party wählen können und diesen dann für die nächsten Kämpfe spielen,
+						 * Bis er sich einen anderen aussucht oder sein momentaner Charakter tot ist. 
+						 * Wie muss ich das implementieren?
+						 */
 									}
 				}
 				break;
