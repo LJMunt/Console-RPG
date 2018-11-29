@@ -1,0 +1,34 @@
+package battlePackage;
+import characterPackage.Character;
+
+public class PlayerParty {
+	private Character[] party;
+	private int charCount;
+	private final int MAX_SIZE = 4;
+	
+	
+	public PlayerParty() {
+		this.party = new Character[MAX_SIZE];
+		this.charCount = 0;
+	}
+	
+	public void addChar() {
+		if (this.charCount < this.MAX_SIZE) {
+			Character newPlayer = Battlefield.CharacterCreation();
+			this.party[this.charCount] = newPlayer;
+			charCount++;
+		}
+		else
+			System.out.println("Party is full.");
+	}
+	
+	public void delChar(int index) {
+		if (this.charCount != 0) {
+			party[index] = null;
+			this.charCount--;
+		}
+		else 
+			System.out.println("Party is empty. Create a new Character.");
+	}
+
+}

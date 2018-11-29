@@ -12,10 +12,10 @@ public class Battlefield {
 	private Character player;
 	private Character enemy;
 	
-	public Battlefield(Terrain terrain) {
+	public Battlefield(Terrain terrain, Character player) {
 		this.terrain = Terrain.getRandom();
 		this.enemy = this.createEnemy();
-		this.player = this.CharacterCreation();
+		this.player = player;
 		System.out.println("You are... ");
 		System.out.println(player);
 		System.out.println("Your Enemy is: ");
@@ -38,7 +38,7 @@ public class Battlefield {
 
 
 
-	private Character CharacterCreation() {
+	public static Character CharacterCreation() {
 		Random rnd = new Random();
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter your Name: ");
@@ -47,13 +47,13 @@ public class Battlefield {
 		String background = scan.nextLine();
 		System.out.println("Enter your feat: ");
 		String feat = scan.next();
-		CharClass playerClass = this.chooseClass();
+		CharClass playerClass = Battlefield.chooseClass();
 		int hp = 8+playerClass.getMeleePower()+rnd.nextInt(4)+1;
 		Character playerChar = new Character(name, background, feat, hp, playerClass);
 		return playerChar;
 	}
 
-	private CharClass chooseClass() {
+	private static CharClass chooseClass() {
 		Scanner scan = new Scanner(System.in);
 		CharClass playClass = null;
 		System.out.println("Choose your Class. you may choose from: \n\tWizard \tFighter \tPaladin \tRogue");
@@ -73,14 +73,13 @@ public class Battlefield {
 			break;
 		default:
 			System.out.println("Class not recognized.");
-			playClass = this.chooseClass();
+			playClass = Battlefield.chooseClass();
 		}
 		return playClass;
 	}
 	
 	public void Battle() {
 		Scanner scan = new Scanner(System.in);
-		Random rnd = new Random();
 		System.out.println("The battle begins. Choose 1 to attack and 2 to heal yourself.");
 		int playerChoice = scan.nextInt();
 		int playerHeal = this.healCalc(this.player);
@@ -108,7 +107,34 @@ public class Battlefield {
 			if (this.player.isAlive() && this.enemy.isAlive())
 				playerChoice = scan.nextInt();
 		}
+		playerWins = this.determineWinner();
+		this.announceWinner(playerWins);
 		
+	}
+
+	private void announceWinner(Boolean playerWins) {
+		int playerWinInt = (playerWins? 1 : 0);
+		switch (playerWinInt) {
+		case 0:
+			System.out.println("\n");
+			System.out.println(this.enemy+" wins!");
+			break;
+		case 1:
+			System.out.println("\n");
+			System.out.println(this.player.getName()+" wins!");
+		}
+	}
+
+	private Boolean determineWinner() {
+		Boolean playerWins = false;
+		if (this.player.isAlive() && !this.enemy.isAlive()) {
+			playerWins = true;
+		}
+		else {
+			if (this.enemy.isAlive() && !this.player.isAlive())
+				playerWins = false;
+		}
+		return playerWins;
 	}
 
 	private int healCalc(Character character) {
@@ -117,6 +143,8 @@ public class Battlefield {
 		if (character.getHealth() > 1)
 		{
 		heal = character.getHealth()/2+rnd.nextInt(4);	}
+		if (heal > this.terrain.getModifier()) {
+			heal=-this.terrain.getModifier(); }
 		return (int) heal;
 
 }

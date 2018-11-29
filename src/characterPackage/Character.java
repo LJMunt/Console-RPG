@@ -68,6 +68,8 @@ public class Character {
 					this.die();
 				}
 			}
+			else
+				System.out.println(this.name+" is immune against "+type);
 		}
 	}
 
@@ -129,7 +131,7 @@ public class Character {
 	private void crit(Character otherCharacter) {
 		Random rand = new Random();
 		int critdmg = rand.nextInt(this.characterClass.getDamageDie())+1;
-		System.out.println(this.name+" crits and does"+critdmg+" damage!");
+		System.out.println(this.name+" crits and does "+critdmg+" damage!");
 		this.inflictDamage(critdmg, otherCharacter, "Crit Damage");
 		
 	}
