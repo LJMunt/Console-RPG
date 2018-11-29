@@ -1,7 +1,5 @@
 package characterPackage;
 
-import java.util.Random;
-
 import battlePackage.Battlefield;
 import battlePackage.Terrain;
 

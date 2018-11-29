@@ -42,9 +42,9 @@ public class Battlefield {
 		Random rnd = new Random();
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter your Name: ");
-		String name = scan.next();
+		String name = scan.nextLine();
 		System.out.println("Enter your Background: ");
-		String background = scan.next();
+		String background = scan.nextLine();
 		System.out.println("Enter your feat: ");
 		String feat = scan.next();
 		CharClass playerClass = this.chooseClass();
@@ -83,6 +83,9 @@ public class Battlefield {
 		Random rnd = new Random();
 		System.out.println("The battle begins. Choose 1 to attack and 2 to heal yourself.");
 		int playerChoice = scan.nextInt();
+		int playerHeal = this.healCalc(this.player);
+		int enemyHeal = this.healCalc(this.enemy);
+		Boolean playerWins = false;
 	
 		while (this.player.isAlive() && this.enemy.isAlive()) {
 			switch(playerChoice) {
@@ -90,20 +93,31 @@ public class Battlefield {
 				this.player.attack(this.enemy);
 				break;
 			case 2:
-				this.player.heal(rnd.nextInt((int) ((int) (this.player.getHealth())-this.terrain.getModifier())));
+				this.player.heal(playerHeal);
 				break;
 			default:
 				System.out.println("Command not recognized.");
 			}
 			if (this.enemy.getHealth() <= 5 && this.player.getHealth() > this.enemy.getHealth()) {
-				this.enemy.heal(rnd.nextInt((int) ((int) (this.enemy.getHealth())-this.terrain.getModifier())));
+				this.enemy.heal(enemyHeal);
 			}
 			else
 				this.enemy.attack(this.player);
 			//System.out.println(this.enemy);
 			//System.out.println(this.player);
-			playerChoice = scan.nextInt();
+			if (this.player.isAlive() && this.enemy.isAlive())
+				playerChoice = scan.nextInt();
 		}
+		
 	}
 
+	private int healCalc(Character character) {
+		Random rnd = new Random();
+		double heal = 6;
+		if (character.getHealth() > 1)
+		{
+		heal = character.getHealth()/2+rnd.nextInt(4);	}
+		return (int) heal;
+
+}
 }
