@@ -11,19 +11,33 @@ public class Battlefield {
 	private Terrain terrain;
 	private Character player;
 	private Character enemy;
+	private static int battleCount = 0;
 	
 	public Battlefield(Terrain terrain, Character player) {
 		this.terrain = Terrain.getRandom();
-		this.enemy = this.createEnemy();
 		this.player = player;
 		System.out.println("You are... ");
 		System.out.println(player);
-		System.out.println("Your Enemy is: ");
-		System.out.println(enemy);
+		
 
 	}
 
-	private Character createEnemy() {
+	public void startNextBattle() {
+		int enemyLevel = (Battlefield.battleCount/3)+1;
+		this.enemy = this.createEnemy(enemyLevel);
+		System.out.println("The"+(Battlefield.battleCount>0? " next ":" first ")+"battle is about to beginn. your Enemy is: \n"+this.enemy);
+		this.Battle();
+		battleCount++;
+		player.levelUp();
+	}
+	
+	
+	public static int getBattleCount() {
+		return battleCount;
+	}
+
+	
+	private Character createEnemy(int lvl) {
 		Random rnd = new Random();
 		Enemies enemyStrings = Enemies.getRandom();
 		EnemyTitles titles = EnemyTitles.getRandom();
@@ -32,7 +46,8 @@ public class Battlefield {
 		String enemyFeat = enemyStrings.getFeat();
 		CharClass enemyClass = CharClass.getRandom();
 		int enemyHP = 8+enemyClass.getMeleePower()+rnd.nextInt(6)+1;
-		Character enemy = new Character(enemyName ,enemyBg ,enemyFeat , enemyHP, enemyClass);
+		Character enemy = new Character(enemyName ,enemyBg ,enemyFeat , enemyHP, enemyClass, false);
+		enemy.setLevel(lvl);
 		return enemy;
 	}
 
@@ -49,7 +64,7 @@ public class Battlefield {
 		String feat = scan.next();
 		CharClass playerClass = Battlefield.chooseClass();
 		int hp = 8+playerClass.getMeleePower()+rnd.nextInt(4)+1;
-		Character playerChar = new Character(name, background, feat, hp, playerClass);
+		Character playerChar = new Character(name, background, feat, hp, playerClass, true);
 		return playerChar;
 	}
 
@@ -85,7 +100,6 @@ public class Battlefield {
 		int playerHeal = this.healCalc(this.player);
 		int enemyHeal = this.healCalc(this.enemy);
 		Boolean playerWins = false;
-	
 		while (this.player.isAlive() && this.enemy.isAlive()) {
 			switch(playerChoice) {
 			case 1:
@@ -93,6 +107,13 @@ public class Battlefield {
 				break;
 			case 2:
 				this.player.heal(playerHeal);
+				break;
+			case 1337:
+				if (this.player.getFeat().equalsIgnoreCase("Testcharacter")) {
+					this.player.cheat(this.enemy);
+					System.out.println("You dirty cheater..."); }
+				else
+					System.out.println("You can't do that.");
 				break;
 			default:
 				System.out.println("Command not recognized.");
@@ -109,7 +130,6 @@ public class Battlefield {
 		}
 		playerWins = this.determineWinner();
 		this.announceWinner(playerWins);
-		
 	}
 
 	private void announceWinner(Boolean playerWins) {
@@ -142,7 +162,7 @@ public class Battlefield {
 		double heal = 6;
 		if (character.getHealth() > 1)
 		{
-		heal = character.getHealth()/2+rnd.nextInt(4);	}
+		heal = character.getHealth()/2+rnd.nextInt(4+character.getLevel());	}
 		if (heal > this.terrain.getModifier()) {
 			heal=-this.terrain.getModifier(); }
 		return (int) heal;

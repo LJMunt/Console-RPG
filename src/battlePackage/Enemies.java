@@ -5,6 +5,7 @@ import java.util.Random;
 public enum Enemies {
 	
 	Algir(false, "Warrior", "Corrupted"),
+	Arik(false, "Hero", "Great Power"),
 	Torvald(false, "Smith", "Evil"),
 	Akahan(false, "Noble", "Homosexual"),
 	Ulaban(false, "Villager", "Run"),
@@ -18,6 +19,8 @@ public enum Enemies {
 	Erza(true, "Warrior", "Holy"),
 	Avalia(true, "Priest", "Unholy"),
 	Selena(true, "Noble", "Corrupted"),
+	Kyriana(true, "Goddess", "Good"),
+	Ayatra(true, "Goddess", "Corrupted"),
 	Dorena(true, "Villager", "Run"),
 	Narmora(true, "Merchant", "Submissive"),
 	Namira(true, "Hero", "Corrupted"),

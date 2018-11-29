@@ -4,7 +4,7 @@ import characterPackage.Character;
 public class PlayerParty {
 	private Character[] party;
 	private int charCount;
-	private final int MAX_SIZE = 4;
+	public final int MAX_SIZE = 4;
 	
 	
 	public PlayerParty() {
@@ -29,6 +29,14 @@ public class PlayerParty {
 		}
 		else 
 			System.out.println("Party is empty. Create a new Character.");
+	}
+
+	public Character[] getParty() {
+		return party;
+	}
+
+	public int getCharCount() {
+		return charCount;
 	}
 
 }

@@ -23,6 +23,15 @@ public enum EnemyTitles {
 	SpawnoC("Spawn of Chaos"),
 	DeKnight("Demon Knight"),
 	DarkOne("Dark One"),
+	Butcher("Butcher"),
+	Seducer("Seducer"),
+	LHero("Lost Hero"),
+	FAngel("Fallen Angel"),
+	GodSlayer("Slayer of Gods"),
+	LostOne("Lost One"),
+	Betrayer("Betrayer"),
+	DHunter("Dragon Hunter"),
+	DSlayer("Demon Slayer"),
 	MasteroS("Master of Shadows");
 	
 	private String title;
