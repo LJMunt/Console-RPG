@@ -39,4 +39,19 @@ public class PlayerParty {
 		return charCount;
 	}
 
-}
+	@Override
+	public String toString() {
+		String returnString = "Party: ";
+		for (int i=0;i<this.charCount;i++) {
+			if (this.party[i] == null)
+				return null;
+			
+			returnString+=" "+this.party[i].getName();
+		}
+		return returnString;
+		}
+	}
+
+	
+	
+

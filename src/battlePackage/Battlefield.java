@@ -22,11 +22,11 @@ public class Battlefield {
 
 	}
 
-	public void startNextBattle() {
+	public void startNextBattle(Character player) {
 		int enemyLevel = (Battlefield.battleCount/3)+1;
 		this.enemy = this.createEnemy(enemyLevel);
 		System.out.println("The"+(Battlefield.battleCount>0? " next ":" first ")+"battle is about to beginn. your Enemy is: \n"+this.enemy);
-		this.Battle();
+		this.Battle(player);
 		battleCount++;
 		player.levelUp();
 	}
@@ -93,24 +93,24 @@ public class Battlefield {
 		return playClass;
 	}
 	
-	public void Battle() {
+	public void Battle(Character player) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("The battle begins. Choose 1 to attack and 2 to heal yourself.");
 		int playerChoice = scan.nextInt();
-		int playerHeal = this.healCalc(this.player);
+		int playerHeal = this.healCalc(player);
 		int enemyHeal = this.healCalc(this.enemy);
 		Boolean playerWins = false;
-		while (this.player.isAlive() && this.enemy.isAlive()) {
+		while (player.isAlive() && this.enemy.isAlive()) {
 			switch(playerChoice) {
 			case 1:
-				this.player.attack(this.enemy);
+				player.attack(this.enemy);
 				break;
 			case 2:
-				this.player.heal(playerHeal);
+				player.heal(playerHeal);
 				break;
 			case 1337:
-				if (this.player.getFeat().equalsIgnoreCase("Testcharacter")) {
-					this.player.cheat(this.enemy);
+				if (player.getFeat().equalsIgnoreCase("Testcharacter")) {
+					player.cheat(this.enemy);
 					System.out.println("You dirty cheater..."); }
 				else
 					System.out.println("You can't do that.");
@@ -118,17 +118,17 @@ public class Battlefield {
 			default:
 				System.out.println("Command not recognized.");
 			}
-			if (this.enemy.getHealth() <= 5 && this.player.getHealth() > this.enemy.getHealth()) {
+			if (this.enemy.getHealth() <= 5 && player.getHealth() > this.enemy.getHealth()) {
 				this.enemy.heal(enemyHeal);
 			}
 			else
-				this.enemy.attack(this.player);
+				this.enemy.attack(player);
 			//System.out.println(this.enemy);
 			//System.out.println(this.player);
-			if (this.player.isAlive() && this.enemy.isAlive())
+			if (player.isAlive() && this.enemy.isAlive())
 				playerChoice = scan.nextInt();
 		}
-		playerWins = this.determineWinner();
+		playerWins = this.determineWinner(player);
 		this.announceWinner(playerWins);
 	}
 
@@ -145,13 +145,13 @@ public class Battlefield {
 		}
 	}
 
-	private Boolean determineWinner() {
+	private Boolean determineWinner(Character player) {
 		Boolean playerWins = false;
-		if (this.player.isAlive() && !this.enemy.isAlive()) {
+		if (player.isAlive() && !this.enemy.isAlive()) {
 			playerWins = true;
 		}
 		else {
-			if (this.enemy.isAlive() && !this.player.isAlive())
+			if (this.enemy.isAlive() && !player.isAlive())
 				playerWins = false;
 		}
 		return playerWins;
@@ -165,6 +165,8 @@ public class Battlefield {
 		heal = character.getHealth()/2+rnd.nextInt(4+character.getLevel());	}
 		if (heal > this.terrain.getModifier()) {
 			heal=-this.terrain.getModifier(); }
+		else
+			heal+=4;
 		return (int) heal;
 
 }
