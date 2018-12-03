@@ -239,6 +239,3 @@ public class Character {
 	}
 	
 }
-
-	
-	

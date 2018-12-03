@@ -136,7 +136,7 @@ public class Battlefield {
 		switch (playerWinInt) {
 		case 0:
 			System.out.println("\n");
-			System.out.println(this.enemy+" wins!");
+			System.out.println(this.enemy.getName()+" wins!");
 			break;
 		case 1:
 			System.out.println("\n");

@@ -14,7 +14,8 @@ static PlayerParty party = new PlayerParty();
 	GameTitle();
 	Scanner scan = new Scanner(System.in);
 	try {
-		System.out.println("  Welcome to the Console-RPG. Documentation can be found in the README");
+		System.out.println("");;
+		System.out.println("Welcome to the Console-RPG. Documentation can be found in the README");
 		System.out.println("-------------------------------------------------------------------------");
 		party.addChar();
 		Character player = party.getParty()[0];
