@@ -3,7 +3,7 @@ package battlePackage;
 import java.util.Random;
 
 public enum Enemies {
-	
+	//All possible Enemy Names. Gender is not used at the moment.
 	Algir(false, "Warrior", "Corrupted"),
 	Arik(false, "Hero", "Great Power"),
 	Torvald(false, "Smith", "Evil"),
@@ -52,7 +52,7 @@ public enum Enemies {
 	public String getFeat() {
 		return feat;
 	}
-	
+	//CHooses a random name.
 	public static Enemies getRandom() {
 		return Enemies.values()[rnd.nextInt(Enemies.values().length)];
 	}

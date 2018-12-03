@@ -3,7 +3,7 @@ package characterPackage;
 import java.util.Random;
 
 import battlePackage.Battlefield;
-
+//this is a massive Class. Could probably be made a little bit smaller (but i'll extend it.) Used to generate a character.
 public class Character {
 	Random rand = new Random();
 	private String name, background, feat;
@@ -75,7 +75,7 @@ public class Character {
 	public boolean isPlayerControlled() {
 		return playerControlled;
 	}
-
+	//Implements the damage a player takes.
 	private void damage(int dmg, String type) {
 		String charImmunity = this.characterClass.getImmunity();
 		if (alive == true ) {
@@ -90,18 +90,19 @@ public class Character {
 		}
 	}
 
-
+	//activates the Damage Method in the other Character.
 	private void inflictDamage(int dmg, Character otherCharacter, String type) {
 		otherCharacter.damage(dmg, type);
 	}
 	
-	
+	//confirms the character death and sets alive false.
 	private void die() {
 		if (this.health <= 0) {
 		this.alive = false;
 		System.out.println(this.name+" dies."); }
 	}
-	
+	//Base Combat Method. Uses Character.hit() to check if the char hits.
+	//Then it gives out an attack message and uses inflictDamage.
 	public void attack(Character otherCharacter) {
 		Random attackDice = new Random();
 		int dmg = attackDice.nextInt(this.characterClass.getDamageDie())+1;
@@ -117,7 +118,8 @@ public class Character {
 				System.out.println(this.name+" misses!");
 		}
 	}
-	
+	//Checks if the characters AttackThrow hits the enemy. 
+	//Also implements crit() and fumble() which are at 20 and 1 respectively.
 	private boolean hit(Character otherCharacter) {
 		boolean doesHit;
 		int attack = this.attackThrow();
@@ -138,13 +140,13 @@ public class Character {
 		return doesHit;
 	}
 
-
+	//Characters take damage if they roll a natural 1.
 	private void fumble(int dmg, String type) {
 		System.out.println(this.name+" fumbles!");
 		this.damage(dmg, type);
 	}
 
-
+	//Characters do extra damage if they roll a natural 20.
 	private void crit(Character otherCharacter) {
 		Random rand = new Random();
 		int critdmg = rand.nextInt(this.characterClass.getDamageDie())+1;
@@ -153,7 +155,7 @@ public class Character {
 		
 	}
 
-
+	//Calculates the characters attackThrow that is evaluated by hit. Gives out 0 if the char fumbles and 1 if he crits.
 	private int attackThrow() {
 		Random rand = new Random();
 		int rawAttackDie = rand.nextInt(20)+1;
@@ -174,7 +176,7 @@ public class Character {
 		return finalAttack;
 	}
 
-
+	//Should be formatted better.
 	public String toString() {
 		String definition;
 		definition = this.name+"\t"+
@@ -184,7 +186,7 @@ public class Character {
 		
 		return definition;
 	}
-	
+	//restores health to the character. 
 	public void heal(int heal) {
 		if (this.alive == true && this.health > 0) {
 		this.health+= heal;
@@ -195,13 +197,13 @@ public class Character {
 	public int getArmorClass() {
 		return ArmorClass;
 	}
-
+	//instantly does 100 damage to the other character.
 	public void cheat(Character otherCharacter) {
 		this.health = 100;
 		this.ArmorClass = 100;
-		this.inflictDamage(100, otherCharacter, "Cheat");
+		this.inflictDamage(1337, otherCharacter, "Cheat");
 	}
-	
+	//Determines if the character gets a level up and uses levelModify() to apply the changes.
 	public void levelUp() {
 		if(this.alive && Battlefield.getBattleCount() % 3 == 0) {
 			this.level++;
@@ -210,7 +212,7 @@ public class Character {
 		this.health+=this.levelModify();
 		this.ArmorClass+=(this.levelModify()/2);
 	}
-	
+	//Generates a specific modifier based on character level.
 	public int levelModify() {
 		int mod = 1;
 		if (this.level < 10) {
@@ -228,7 +230,7 @@ public class Character {
 		return mod;
 	}
 
-	
+	//Checks if 2 characters have the same name (later used to search for characters in PlayerParty)
 	public boolean equals(Character otherCharacter) {
 		if (this.name == otherCharacter.getName())
 			return true;

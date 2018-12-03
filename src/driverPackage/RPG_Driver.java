@@ -26,7 +26,7 @@ static PlayerParty party = new PlayerParty();
 				"Press 0 to end the game.");
 		int playerChoice = scan.nextInt();
 		while (playerChoice != 0) {
-			
+			//Menu-block. Could be done more compact.
 			switch (playerChoice) {
 			case 1:
 				System.out.println("Start "+(Battlefield.getBattleCount() > 0 ? " next": " first")+" battle?");
@@ -75,6 +75,7 @@ static PlayerParty party = new PlayerParty();
 		}
 	finally {scan.close();}
 	}
+	//removes all dead characters from the party.
 	private static void clean() {
 		for (int i = 0; i < party.getCharCount(); i++) {
 			if (party.getParty()[i].isAlive() == false) {

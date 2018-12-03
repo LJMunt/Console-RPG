@@ -3,7 +3,7 @@ package battlePackage;
 import java.util.Random;
 
 public enum EnemyTitles {
-	
+	//All possible Enemy Titles.
 	Great("Great"),
 	Destroyer("Destroyer"),
 	Holy("Holy"),

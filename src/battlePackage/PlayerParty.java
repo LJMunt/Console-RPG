@@ -11,7 +11,7 @@ public class PlayerParty {
 		this.party = new Character[MAX_SIZE];
 		this.charCount = 0;
 	}
-	
+	//adds a Character to the party.
 	public void addChar() {
 		if (this.charCount < this.MAX_SIZE) {
 			Character newPlayer = Battlefield.CharacterCreation();
@@ -21,7 +21,7 @@ public class PlayerParty {
 		else
 			System.out.println("Party is full.");
 	}
-	
+	//deletes a character. Used in RPG_Driver.clean()
 	public void delChar(int index) {
 		if (this.charCount != 0) {
 			party[index] = null;
@@ -38,7 +38,7 @@ public class PlayerParty {
 	public int getCharCount() {
 		return charCount;
 	}
-
+	//returns the Character Names of the party members.
 	@Override
 	public String toString() {
 		String returnString = "Party: ";

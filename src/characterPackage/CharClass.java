@@ -1,7 +1,8 @@
 package characterPackage;
 
 import java.util.Random;
-
+//Character classes, used by player and enemy.
+//Other classes can easily be added, but need to be synced with Battlefield.chooseClass().
 public enum CharClass {
 	
 	Wizard(4, 12,"Fireball", "Magic", "Physical", "Wizard"),

@@ -1,7 +1,7 @@
 package battlePackage;
 
 import java.util.Random;
-
+//Terrain modifiers influence character healing.
 public enum Terrain {
 	Forest("Forest", 2), Hills("Hills", 1), Plains("Plains", 0), Wasteland("Wasteland",3);
 	private String name;

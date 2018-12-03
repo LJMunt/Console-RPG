@@ -9,19 +9,17 @@ import characterPackage.Character;
 public class Battlefield {
 	
 	private Terrain terrain;
-	private Character player;
 	private Character enemy;
 	private static int battleCount = 0;
 	
 	public Battlefield(Terrain terrain, Character player) {
 		this.terrain = Terrain.getRandom();
-		this.player = player;
 		System.out.println("You are... ");
 		System.out.println(player);
 		
 
 	}
-
+	//creates a new enemy and starts the battle. Also levels the player and the generated enemy.
 	public void startNextBattle(Character player) {
 		int enemyLevel = (Battlefield.battleCount/3)+1;
 		this.enemy = this.createEnemy(enemyLevel);
@@ -36,7 +34,7 @@ public class Battlefield {
 		return battleCount;
 	}
 
-	
+	//Creates an Enemy at random from the enum Enemies and EnemyTitles. 
 	private Character createEnemy(int lvl) {
 		Random rnd = new Random();
 		Enemies enemyStrings = Enemies.getRandom();
@@ -52,7 +50,8 @@ public class Battlefield {
 	}
 
 
-
+	//Guides the player through character creation with prompts.
+	//Magic Number at Character Creation. 8 is the base HP of every character.
 	public static Character CharacterCreation() {
 		Random rnd = new Random();
 		Scanner scan = new Scanner(System.in);
@@ -67,7 +66,7 @@ public class Battlefield {
 		Character playerChar = new Character(name, background, feat, hp, playerClass, true);
 		return playerChar;
 	}
-
+	//Lets the Player choose his class. Easily extendable once more classes are added.
 	private static CharClass chooseClass() {
 		Scanner scan = new Scanner(System.in);
 		CharClass playClass = null;
@@ -92,7 +91,7 @@ public class Battlefield {
 		}
 		return playClass;
 	}
-	
+	//Main Battle method. Implements the Enemy AI at the moment (which is really basic.) More improvements to come.
 	public void Battle(Character player) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("The battle begins. Choose 1 to attack and 2 to heal yourself.");
@@ -129,10 +128,10 @@ public class Battlefield {
 				playerChoice = scan.nextInt();
 		}
 		playerWins = this.determineWinner(player);
-		this.announceWinner(playerWins);
+		this.announceWinner(playerWins, player);
 	}
-
-	private void announceWinner(Boolean playerWins) {
+	//Announces the Winner at the end of a battle. Uses determineWinner()
+	private void announceWinner(Boolean playerWins, Character player) {
 		int playerWinInt = (playerWins? 1 : 0);
 		switch (playerWinInt) {
 		case 0:
@@ -141,10 +140,10 @@ public class Battlefield {
 			break;
 		case 1:
 			System.out.println("\n");
-			System.out.println(this.player.getName()+" wins!");
+			System.out.println(player.getName()+" wins!");
 		}
 	}
-
+	//Returns true if the Player wins and false if the enemey wins. 
 	private Boolean determineWinner(Character player) {
 		Boolean playerWins = false;
 		if (player.isAlive() && !this.enemy.isAlive()) {
@@ -156,13 +155,13 @@ public class Battlefield {
 		}
 		return playerWins;
 	}
-
+	//This is broken af. Uses the terrain Modifier to fuck up the players Healing.
 	private int healCalc(Character character) {
 		Random rnd = new Random();
 		double heal = 6;
 		if (character.getHealth() > 1)
 		{
-		heal = character.getHealth()/2+rnd.nextInt(4+character.getLevel());	}
+		heal = character.getHealth()/2+rnd.nextInt(4+character.getLevel())+4;	}
 		if (heal > this.terrain.getModifier()) {
 			heal=-this.terrain.getModifier(); }
 		else
