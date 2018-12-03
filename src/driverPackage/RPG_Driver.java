@@ -11,6 +11,7 @@ import characterPackage.Character;
 public class RPG_Driver {
 static PlayerParty party = new PlayerParty();
 	public static void main(String[] args) throws IOException {
+	GameTitle();
 	Scanner scan = new Scanner(System.in);
 	try {
 		System.out.println("  Welcome to the Console-RPG. Documentation can be found in the README");
@@ -83,5 +84,18 @@ static PlayerParty party = new PlayerParty();
 			}
 		}
 		
+	}
+	
+	private static void GameTitle() {
+		System.out.println(" _______  _______  _        _______  _______  _        _______                 _______  _______  _______ \n" + 
+				"(  ____ \\(  ___  )( (    /|(  ____ \\(  ___  )( \\      (  ____ \\               (  ____ )(  ____ )(  ____ \\\n" + 
+				"| (    \\/| (   ) ||  \\  ( || (    \\/| (   ) || (      | (    \\/               | (    )|| (    )|| (    \\/\n" + 
+				"| |      | |   | ||   \\ | || (_____ | |   | || |      | (__         _____     | (____)|| (____)|| |      \n" + 
+				"| |      | |   | || (\\ \\) |(_____  )| |   | || |      |  __)       (_____)    |     __)|  _____)| | ____ \n" + 
+				"| |      | |   | || | \\   |      ) || |   | || |      | (                     | (\\ (   | (      | | \\_  )\n" + 
+				"| (____/\\| (___) || )  \\  |/\\____) || (___) || (____/\\| (____/\\               | ) \\ \\__| )      | (___) |\n" + 
+				"(_______/(_______)|/    )_)\\_______)(_______)(_______/(_______/               |/   \\__/|/       (_______)\n" + 
+				"                                                                                                         ");
+		System.out.println("A small, lightweight RPG that runs on RAM.");
 	}
 }
