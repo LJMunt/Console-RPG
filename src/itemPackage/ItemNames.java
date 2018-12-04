@@ -4,7 +4,9 @@ import java.util.Random;
 
 
 public enum ItemNames {
-	PotionHeal("Potion of Healing", "Makes the Pain go away.... but at what cost?", 10);
+	PotionHeal("Potion of Healing", "Makes the Pain go away.... but at what cost?", 10),
+	InvisPot("Potion of Invisibility", "Lets you evade attacks more easily", 18),
+	StrengthPot("Potion of unnatural Strength", "Makes you Stronger, but may lead to cancer.", 12);
 	
 	private String iname, description;
 	private int value;

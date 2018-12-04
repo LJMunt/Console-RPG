@@ -11,6 +11,7 @@ public class Item {
 		this.value = this.itemName.getValue();
 		this.name = this.itemName.getName();
 		this.description = this.itemName.getDescription();
+		itemCount++;
 	}
 	public Item(ItemNames iName) {
 		this.itemName = iName;
@@ -34,6 +35,13 @@ public class Item {
 	public int getValue() {
 		return value;
 	}
+	public static int getItemCount() {
+		return itemCount;
+	}
+	public static void setItemCount(int itemCount) {
+		Item.itemCount = itemCount;
+	}
+	
 
 	
 }

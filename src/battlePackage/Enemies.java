@@ -52,7 +52,7 @@ public enum Enemies {
 	public String getFeat() {
 		return feat;
 	}
-	//CHooses a random name.
+	//Chooses a random name.
 	public static Enemies getRandom() {
 		return Enemies.values()[rnd.nextInt(Enemies.values().length)];
 	}
