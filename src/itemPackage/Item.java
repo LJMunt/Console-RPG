@@ -1,19 +1,23 @@
 package itemPackage;
+import characterPackage.Character;
+
 
 public class Item {
 	private int value;
 	private String name, description;
 	private ItemNames itemName;
 	private static int itemCount;
-	
-	public Item() {
+	private Character user;
+	public Item(Character user) {
+		this.user = user;
 		this.itemName = ItemNames.getRandom();
 		this.value = this.itemName.getValue();
 		this.name = this.itemName.getName();
 		this.description = this.itemName.getDescription();
 		itemCount++;
 	}
-	public Item(ItemNames iName) {
+	public Item(ItemNames iName, Character user) {
+		this.user = user;
 		this.itemName = iName;
 		this.value = this.itemName.getValue();
 		this.name = this.itemName.getName();
@@ -41,8 +45,31 @@ public class Item {
 	public static void setItemCount(int itemCount) {
 		Item.itemCount = itemCount;
 	}
+	public void use() {
+		System.out.println(this.user.getName()+" "+"uses "+this.name);
+		
+	}
+	public boolean equals(Item otherItem) {
+		Boolean equals = false;
+		if (this.name == otherItem.getName()) {
+			equals = true;
+		}
+		else
+			equals = false;
+		return equals;
+	}
 	
+	public boolean equals(String otherName) {
+		Boolean equals = false;
+		if (this.name == otherName) {
+			equals = true;
+		}
+		else
+			equals = false;
+		return equals;
+
 
 	
 }
 
+}

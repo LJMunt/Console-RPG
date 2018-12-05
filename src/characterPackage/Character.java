@@ -1,8 +1,10 @@
 package characterPackage;
 
+
 import java.util.Random;
 
 import battlePackage.Battlefield;
+import itemPackage.CharacterInventory;
 //this is a massive Class. Could probably be made a little bit smaller (but i'll extend it.) Used to generate a character.
 public class Character {
 	Random rand = new Random();
@@ -14,6 +16,7 @@ public class Character {
 	private int ArmorClass;
 	private int level = 1;
 	private boolean playerControlled;
+	private CharacterInventory inv;
 	
 	
 	public Character(String name, String background,String feat, int health, CharClass characterClass, boolean playerControlled) {
@@ -25,6 +28,7 @@ public class Character {
 		this.alive = true;
 		this.playerControlled = playerControlled;
 		this.setArmorClass(this.characterClass.getMeleePower()+10+rand.nextInt(3)+1);
+		this.inv = 
 		characterCount++;
 	}
 
