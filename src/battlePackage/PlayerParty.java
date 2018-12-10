@@ -39,7 +39,7 @@ public class PlayerParty {
 		return charCount;
 	}
 	//returns the Character Names of the party members.
-	@Override
+
 	public String toString() {
 		String returnString = "Party: ";
 		for (int i=0;i<this.charCount;i++) {
