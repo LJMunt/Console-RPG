@@ -16,6 +16,7 @@ public class Battlefield {
 		this.terrain = Terrain.getRandom();
 		System.out.println("You are... ");
 		System.out.println(player);
+		System.out.println("The Terrain is "+this.terrain.getName());
 		
 
 	}
@@ -157,16 +158,16 @@ public class Battlefield {
 	}
 	//This is broken af. Uses the terrain Modifier to fuck up the players Healing.
 	private int healCalc(Character character) {
-		Random rnd = new Random();
-		double heal = 6;
-		if (character.getHealth() > 1)
-		{
-		heal = character.getHealth()/2+rnd.nextInt(4+character.getLevel())+4;	}
-		if (heal > this.terrain.getModifier()) {
-			heal=-this.terrain.getModifier(); }
-		else
-			heal+=4;
-		return (int) heal;
-
-}
+//		Random rnd = new Random();
+//		int heal = 6;
+//		if (character.getHealth() >= 1)
+//		{
+//			heal = 16;
+//			if (heal > this.terrain.getModifier()) {
+//				heal=-this.terrain.getModifier(); }
+//			else
+//				heal=4;
+//		}
+		return 8;
+	}
 }

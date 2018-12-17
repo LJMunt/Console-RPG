@@ -9,6 +9,7 @@ import battlePackage.Terrain;
 import characterPackage.Character;
 
 public class RPG_Driver {
+	
 static PlayerParty party = new PlayerParty();
 	public static void main(String[] args) throws IOException {
 	GameTitle();
@@ -31,7 +32,7 @@ static PlayerParty party = new PlayerParty();
 			//Menu-block. Could be done more compact.
 			switch (playerChoice) {
 			case 1:
-				System.out.println("Start "+(Battlefield.getBattleCount() > 0 ? " next": " first")+" battle?");
+				System.out.println("Start "+(Battlefield.getBattleCount() > 0 ? " next": " first")+" battle? (y/n)");
 				String userChoice = scan.next();
 				while (userChoice.equalsIgnoreCase("y") && player.isAlive()) {
 					mainStage.startNextBattle(player);
@@ -97,6 +98,6 @@ static PlayerParty party = new PlayerParty();
 				"| (____/\\| (___) || )  \\  |/\\____) || (___) || (____/\\| (____/\\               | ) \\ \\__| )      | (___) |\n" + 
 				"(_______/(_______)|/    )_)\\_______)(_______)(_______/(_______/               |/   \\__/|/       (_______)\n" + 
 				"                                                                                                         ");
-		System.out.println("A small, lightweight RPG that runs on RAM.");
+		System.out.println("A small, lightweight RPG that runs in RAM.");
 	}
 }

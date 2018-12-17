@@ -9,7 +9,7 @@ import itemPackage.CharacterInventory;
 public class Character {
 	Random rand = new Random();
 	private String name, background, feat;
-	private double health;
+	private int health;
 	private boolean alive;
 	private CharClass characterClass;
 	public static int characterCount = 0;
@@ -28,7 +28,7 @@ public class Character {
 		this.alive = true;
 		this.playerControlled = playerControlled;
 		this.setArmorClass(this.characterClass.getMeleePower()+10+rand.nextInt(3)+1);
-		this.inv = 
+		this.inv = null;
 		characterCount++;
 	}
 
