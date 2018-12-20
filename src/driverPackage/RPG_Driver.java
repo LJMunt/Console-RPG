@@ -9,95 +9,110 @@ import battlePackage.Terrain;
 import characterPackage.Character;
 
 public class RPG_Driver {
-	
-static PlayerParty party = new PlayerParty();
+
+	static PlayerParty party = new PlayerParty();
+
 	public static void main(String[] args) throws IOException {
-	GameTitle();
-	Scanner scan = new Scanner(System.in);
-	try {
-		System.out.println("");;
-		System.out.println("Welcome to the Console-RPG. Documentation can be found in the README");
-		System.out.println("-------------------------------------------------------------------------");
-		party.addChar();
-		Character player = party.getParty()[0];
-		Battlefield mainStage = new Battlefield(Terrain.getRandom(), player );
-		System.out.println("Press 1 to start the battlemode with your character.\n"+
-				"Press 2 to create another character and add them to the party.\n"+
-				"Press 3 to list all the characters currently in your party.\n"+
-				"Press 4 to change your current character.\n"+
-				"Press 5 to view your current character.\n"+
-				"Press 0 to end the game.");
-		int playerChoice = scan.nextInt();
-		while (playerChoice != 0) {
-			//Menu-block. Could be done more compact.
-			switch (playerChoice) {
-			case 1:
-				System.out.println("Start "+(Battlefield.getBattleCount() > 0 ? " next": " first")+" battle? (y/n)");
-				String userChoice = scan.next();
-				while (userChoice.equalsIgnoreCase("y") && player.isAlive()) {
-					mainStage.startNextBattle(player);
-					clean();
-					if (player.isAlive()) {
-						System.out.println("Next battle? (y/n)");
-						userChoice = scan.next(); } 
-				}
-				break;
-			case 2:
+		GameTitle();
+		Scanner scan = new Scanner(System.in);
+		try {
+			System.out.println("");
+			;
+			System.out.println("Welcome to the Console-RPG. Documentation can be found in the README");
+			System.out.println("-------------------------------------------------------------------------");
+			party.addChar();
+			Character player = party.getParty()[0];
+			Battlefield mainStage = new Battlefield(Terrain.getRandom(), player);
+			System.out.println("Press 1 to start the battlemode with your character.\n"
+					+ "Press 2 to create another character and add them to the party.\n"
+					+ "Press 3 to list all the characters currently in your party.\n"
+					+ "Press 4 to change your current character.\n" + "Press 5 to view your current character.\n"
+					+ "Press 6 to open the Inventory Menu."
+					+ "Press 0 to end the game.");
+			int playerChoice = scan.nextInt();
+			while (playerChoice != 0) {
+				// Menu-block. Could be done more compact.
+				switch (playerChoice) {
+				case 1:
+					System.out.println(
+							"Start " + (Battlefield.getBattleCount() > 0 ? " next" : " first") + " battle? (y/n)");
+					String userChoice = scan.next();
+					while (userChoice.equalsIgnoreCase("y") && player.isAlive()) {
+						mainStage.startNextBattle(player);
+						clean();
+						if (player.isAlive()) {
+							System.out.println("Next battle? (y/n)");
+							userChoice = scan.next();
+						}
+					}
+					break;
+				case 2:
 					party.addChar();
 					System.out.println("Character added.");
 					break;
-			case 3:
-				System.out.println("The following Characters are in the party.");
-				System.out.println(party);
-				break;
-			case 4:
-				System.out.println("Enter the name of the character you want to play as.");
-				String characterChoice = scan.nextLine();
-				characterChoice = scan.nextLine();
-				for (int i = 0; i < party.getCharCount() ;i++) {
-					if (characterChoice.equalsIgnoreCase(party.getParty()[i].getName())) {
-						player = party.getParty()[i];}
+				case 3:
+					System.out.println("The following Characters are in the party.");
+					System.out.println(party);
+					break;
+				case 4:
+					System.out.println("Enter the name of the character you want to play as.");
+					String characterChoice = scan.nextLine();
+					characterChoice = scan.nextLine();
+					for (int i = 0; i < party.getCharCount(); i++) {
+						if (characterChoice.equalsIgnoreCase(party.getParty()[i].getName())) {
+							player = party.getParty()[i];
+						}
+					}
+					break;
+				case 5:
+					System.out.println(player);
+					break;
+				case 6:
+					inventoryHandler(player);
+					break;
+				case 0:
+					break;
+				default:
+					System.out.println("Comand not recognized. Try again.");
 				}
-				break;
-			case 5:
-				System.out.println(player);
-				break;
-			case 0:
-				break;
-			default:
-				System.out.println("Comand not recognized. Try again.");
+				System.out.println("Press 1 to start the battlemode with your character.\n"
+						+ "Press 2 to create another character and add them to the party.\n"
+						+ "Press 3 to list all the characters currently in your party.\n"
+						+ "Press 4 to change your current character.\n" + "Press 5 to view your current character.\n"
+						+ "Press 6 to open the Inventory Menu.\n"
+						+ "Press 0 to end the game.");
+				playerChoice = scan.nextInt();
 			}
-			System.out.println("Press 1 to start the battlemode with your character.\n"+
-					"Press 2 to create another character and add them to the party.\n"+
-					"Press 3 to list all the characters currently in your party.\n"+
-					"Press 4 to change your current character.\n"+
-					"Press 5 to view your current character.\n"+
-					"Press 0 to end the game.");
-			playerChoice = scan.nextInt();
-			}
+		} finally {
+			scan.close();
 		}
-	finally {scan.close();}
 	}
-	//removes all dead characters from the party.
+
+	private static void inventoryHandler(Character player) {
+		
+	}
+
+	// removes all dead characters from the party.
 	private static void clean() {
 		for (int i = 0; i < party.getCharCount(); i++) {
 			if (party.getParty()[i].isAlive() == false) {
 				party.delChar(i);
 			}
 		}
-		
+
 	}
-	
+
 	private static void GameTitle() {
-		System.out.println(" _______  _______  _        _______  _______  _        _______                 _______  _______  _______ \n" + 
-				"(  ____ \\(  ___  )( (    /|(  ____ \\(  ___  )( \\      (  ____ \\               (  ____ )(  ____ )(  ____ \\\n" + 
-				"| (    \\/| (   ) ||  \\  ( || (    \\/| (   ) || (      | (    \\/               | (    )|| (    )|| (    \\/\n" + 
-				"| |      | |   | ||   \\ | || (_____ | |   | || |      | (__         _____     | (____)|| (____)|| |      \n" + 
-				"| |      | |   | || (\\ \\) |(_____  )| |   | || |      |  __)       (_____)    |     __)|  _____)| | ____ \n" + 
-				"| |      | |   | || | \\   |      ) || |   | || |      | (                     | (\\ (   | (      | | \\_  )\n" + 
-				"| (____/\\| (___) || )  \\  |/\\____) || (___) || (____/\\| (____/\\               | ) \\ \\__| )      | (___) |\n" + 
-				"(_______/(_______)|/    )_)\\_______)(_______)(_______/(_______/               |/   \\__/|/       (_______)\n" + 
-				"                                                                                                         ");
-		System.out.println("A small, lightweight RPG that runs in RAM.");
+		System.out.println(
+				" _______  _______  _        _______  _______  _        _______                 _______  _______  _______ \n"
+						+ "(  ____ \\(  ___  )( (    /|(  ____ \\(  ___  )( \\      (  ____ \\               (  ____ )(  ____ )(  ____ \\\n"
+						+ "| (    \\/| (   ) ||  \\  ( || (    \\/| (   ) || (      | (    \\/               | (    )|| (    )|| (    \\/\n"
+						+ "| |      | |   | ||   \\ | || (_____ | |   | || |      | (__         _____     | (____)|| (____)|| |      \n"
+						+ "| |      | |   | || (\\ \\) |(_____  )| |   | || |      |  __)       (_____)    |     __)|  _____)| | ____ \n"
+						+ "| |      | |   | || | \\   |      ) || |   | || |      | (                     | (\\ (   | (      | | \\_  )\n"
+						+ "| (____/\\| (___) || )  \\  |/\\____) || (___) || (____/\\| (____/\\               | ) \\ \\__| )      | (___) |\n"
+						+ "(_______/(_______)|/    )_)\\_______)(_______)(_______/(_______/               |/   \\__/|/       (_______)\n"
+						+ "                                                                                                         ");
+		System.out.println("A lightweight RPG that runs in RAM.");
 	}
 }
