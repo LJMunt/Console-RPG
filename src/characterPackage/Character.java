@@ -14,7 +14,9 @@ public class Character {
 	private CharClass characterClass;
 	public static int characterCount = 0;
 	private int ArmorClass;
+	private int power;
 	private int level = 1;
+	private Gold gold;
 	private boolean playerControlled;
 	private CharacterInventory inv;
 
@@ -27,8 +29,10 @@ public class Character {
 		this.characterClass = characterClass;
 		this.alive = true;
 		this.playerControlled = playerControlled;
-		this.setArmorClass(this.characterClass.getMeleePower() + 10 + rand.nextInt(3) + 1);
+		this.power = this.characterClass.getMeleePower();
+		this.setArmorClass(this.power + 10 + rand.nextInt(3) + 1);
 		this.inv = new CharacterInventory(this);
+		this.gold = new Gold(this);
 		characterCount++;
 	}
 
@@ -40,7 +44,7 @@ public class Character {
 		this.level = level;
 	}
 
-	private void setArmorClass(int armorClass) {
+	public void setArmorClass(int armorClass) {
 		this.ArmorClass = armorClass;
 
 	}
@@ -75,15 +79,20 @@ public class Character {
 
 	// Implements the damage a player takes.
 	private void damage(int dmg, String type) {
-		String charImmunity = this.characterClass.getImmunity();
+		String charResistance = this.characterClass.getImmunity();
 		if (alive == true) {
-			if (!type.equals(charImmunity)) {
+			if (!type.equals(charResistance)) {
 				this.health -= dmg;
 				if (this.health <= 0) {
 					this.die();
 				}
-			} else
-				System.out.println(this.name + " is immune against " + type);
+			} else {
+				System.out.println(this.name + " is resistant against " + type + " and only takes half the damage.");
+				this.health -= (dmg / 2);
+				if (this.health <= 0) {
+					this.die();
+				}
+			}
 		}
 	}
 
@@ -146,7 +155,6 @@ public class Character {
 		int critdmg = rand.nextInt(this.characterClass.getDamageDie()) + 1;
 		System.out.println(this.name + " crits and does " + critdmg + " damage!");
 		this.inflictDamage(critdmg, otherCharacter, "Crit Damage");
-
 	}
 
 	// Calculates the characters attackThrow that is evaluated by hit. Gives out 0
@@ -163,20 +171,25 @@ public class Character {
 			finalAttack = 1;
 			break;
 		default:
-			finalAttack = rawAttackDie + this.characterClass.getMeleePower() + this.levelModify();
+			finalAttack = rawAttackDie + this.power + this.levelModify();
 			break;
-
 		}
-
 		return finalAttack;
 	}
 
 	// Should be formatted better.
 	public String toString() {
-		String definition;
-		definition = this.name + "\t" + this.characterClass.getClassName() + "\tLevel " + this.level + "\n" + "Health: "
-				+ this.health + "\t" + "Armor Class: " + this.ArmorClass + "\t" + "Background: " + this.background
-				+ "\t" + "Feat: " + this.feat + "\n" + "Inventory: " + this.inv;
+		String definition = "This should not happen.";
+		if (this.playerControlled) {
+			definition = this.name + "\t" + this.characterClass.getClassName() + "\tLevel " + this.level + "\n"
+					+ "Health: " + this.health + "\t" + "Armor Class: " + this.ArmorClass + "\t" + "Background: "
+					+ this.background + "\t" + "Feat: " + this.feat + "\n" + this.inv + "\n" + this.gold.getValue()
+					+ " Gold.";
+		} else {
+			definition = this.name + "\t" + this.characterClass.getClassName() + "\tLevel " + this.level + "\n"
+					+ "Health: " + this.health + "\t" + "Armor Class: " + this.ArmorClass + "\t" + "Background: "
+					+ this.background + "\t" + "Feat: " + this.feat + "\n";
+		}
 
 		return definition;
 	}
@@ -193,7 +206,7 @@ public class Character {
 		return ArmorClass;
 	}
 
-	// instantly does 100 damage to the other character.
+	// instantly does 1337 damage to the other character.
 	public void cheat(Character otherCharacter) {
 		this.health = 100;
 		this.ArmorClass = 100;
@@ -210,10 +223,11 @@ public class Character {
 		}
 		this.health += this.levelModify();
 		this.ArmorClass += (this.levelModify() / 2);
+		this.power += (this.levelModify() / 2);
 	}
 
 	// Generates a specific modifier based on character level.
-	public int levelModify() {
+	private int levelModify() {
 		int mod = 1;
 		if (this.level < 10) {
 			mod = level;
@@ -235,6 +249,24 @@ public class Character {
 			return true;
 		else
 			return false;
+	}
+
+	public CharacterInventory getInventory() {
+		return this.inv;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		if (power > 0) {
+			this.power = power;
+		}
+	}
+
+	public Gold getGold() {
+		return gold;
 	}
 
 }

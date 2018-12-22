@@ -14,7 +14,7 @@ public class CharacterInventory {
 		this.owner = owner;
 	}
 
-	public void additem() {
+	public void addItem() {
 		if (this.itemCount < this.INVENTORY_MAX) {
 			Item newItem = this.createItem();
 			this.inventory[itemCount] = newItem;
@@ -27,7 +27,8 @@ public class CharacterInventory {
 			Item newItem = this.createItem(iNames);
 			this.inventory[itemCount] = newItem;
 			itemCount++;
-		}
+		} else
+			System.out.println("Inventory full.");
 	}
 
 	private Item createItem() {
@@ -46,36 +47,42 @@ public class CharacterInventory {
 		this.itemCount--;
 	}
 
-	public void useItem(String name) {
-		int i = this.findIndex(name);
-		this.inventory[i].use();
-		this.delItem(name);
-
+	public int useItem(String name) {
+		int confirmation = 0;
+		Integer i = this.findIndex(name);
+		if (i != null) {
+			this.inventory[i].use();
+			this.delItem(name);
+			confirmation = 1;
+		}
+		return confirmation;
 	}
 
 	private Integer findIndex(String name) {
-		Integer index = 0;
+		Integer index = null;
 		for (int i = 0; i < this.itemCount; i++) {
 			if (this.inventory[i].equals(name)) {
 				index = i;
 			} else {
 				System.out.println("Item not found.");
-				return null;
+				index = null;
 			}
 
 		}
-
 		return index;
 	}
 
 	public String toString() {
 		String returnString = "Inventory of " + this.owner.getName() + " : ";
-		for (int i = 0; i < this.inventory.length; i++) {
-			if (this.inventory[i] == null)
-				return "Empty";
-
-			returnString += " " + this.inventory[i].getName();
+		for (int i = 0; i < INVENTORY_MAX; i++) {
+			if (inventory[i] == null)
+				returnString += "";
+			else
+				returnString += inventory[i].getName() + ", ";
 		}
+		if (returnString.isEmpty())
+			returnString = "empty";
+
 		return returnString;
 	}
 }

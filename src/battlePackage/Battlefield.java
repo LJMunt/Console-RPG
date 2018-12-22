@@ -11,24 +11,29 @@ public class Battlefield {
 	private Terrain terrain;
 	private Character enemy;
 	private static int battleCount = 0;
+	public static final int BASE_HP = 8;
+	private final static int maxHeals = 5;
+	private static int playerHealCount = 0;
 
-	public Battlefield(Terrain terrain, Character player) {
-		this.terrain = Terrain.getRandom();
+	public Battlefield(Character player) {
 		System.out.println("You are... ");
 		System.out.println(player);
-		System.out.println("The Terrain is " + this.terrain.getName());
 
 	}
 
 	// creates a new enemy and starts the battle. Also levels the player and the
-	// generated enemy.
+	// generated enemy and gives the player money.
 	public void startNextBattle(Character player) {
+		this.terrain = Terrain.getRandom();
+		System.out.println("the Terrain is: " + this.terrain.getName());
 		int enemyLevel = (Battlefield.battleCount / 3) + 1;
 		this.enemy = this.createEnemy(enemyLevel);
 		System.out.println("The" + (Battlefield.battleCount > 0 ? " next " : " first ")
-				+ "battle is about to beginn. your Enemy is: \n" + this.enemy);
+				+ "battle is about to beginn. Your enemy is: \n" + this.enemy);
 		this.Battle(player);
 		battleCount++;
+		playerHealCount = 0;
+		player.getGold().addRandomGold();
 		player.levelUp();
 	}
 
@@ -45,14 +50,14 @@ public class Battlefield {
 		String enemyBg = enemyStrings.getBackground();
 		String enemyFeat = enemyStrings.getFeat();
 		CharClass enemyClass = CharClass.getRandom();
-		int enemyHP = 8 + enemyClass.getMeleePower() + rnd.nextInt(6) + 1;
+		int enemyHP = BASE_HP + enemyClass.getMeleePower() + rnd.nextInt(6) + 1;
 		Character enemy = new Character(enemyName, enemyBg, enemyFeat, enemyHP, enemyClass, false);
 		enemy.setLevel(lvl);
+		enemy.levelUp();
 		return enemy;
 	}
 
 	// Guides the player through character creation with prompts.
-	// Magic Number at Character Creation. 8 is the base HP of every character.
 	public static Character CharacterCreation() {
 		Random rnd = new Random();
 		Scanner scan = new Scanner(System.in);
@@ -63,7 +68,7 @@ public class Battlefield {
 		System.out.println("Enter your feat: ");
 		String feat = scan.next();
 		CharClass playerClass = Battlefield.chooseClass();
-		int hp = 8 + playerClass.getMeleePower() + rnd.nextInt(4) + 1;
+		int hp = BASE_HP + playerClass.getMeleePower() + rnd.nextInt(4) + 1;
 		Character playerChar = new Character(name, background, feat, hp, playerClass, true);
 		return playerChar;
 	}
@@ -100,19 +105,25 @@ public class Battlefield {
 	public void Battle(Character player) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("The battle begins. Choose 1 to attack and 2 to heal yourself.");
-		int playerChoice = scan.nextInt();
+		String playerChoice = scan.next();
 		int playerHeal = this.healCalc(player);
 		int enemyHeal = this.healCalc(this.enemy);
 		Boolean playerWins = false;
 		while (player.isAlive() && this.enemy.isAlive()) {
 			switch (playerChoice) {
-			case 1:
+			case "1":
 				player.attack(this.enemy);
 				break;
-			case 2:
-				player.heal(playerHeal);
+			case "2":
+				if (playerHealCount <= 5) {
+					player.heal(playerHeal);
+					int remainingHeals = maxHeals - playerHealCount;
+					System.out.println("Remaining Heals: " + remainingHeals);
+					playerHealCount++;
+				} else
+					System.out.println("You have expended all your heals in this battle.");
 				break;
-			case 1337:
+			case "1337":
 				if (player.getFeat().equalsIgnoreCase("Testcharacter")) {
 					player.cheat(this.enemy);
 					System.out.println("You dirty cheater...");
@@ -130,7 +141,7 @@ public class Battlefield {
 			// System.out.println(this.enemy);
 			// System.out.println(this.player);
 			if (player.isAlive() && this.enemy.isAlive())
-				playerChoice = scan.nextInt();
+				playerChoice = scan.next();
 		}
 		playerWins = this.determineWinner(player);
 		this.announceWinner(playerWins, player);
@@ -164,16 +175,8 @@ public class Battlefield {
 
 	// This is broken af. Uses the terrain Modifier to fuck up the players Healing.
 	private int healCalc(Character character) {
-//		Random rnd = new Random();
-//		int heal = 6;
-//		if (character.getHealth() >= 1)
-//		{
-//			heal = 16;
-//			if (heal > this.terrain.getModifier()) {
-//				heal=-this.terrain.getModifier(); }
-//			else
-//				heal=4;
-//		}
-		return 8;
+		Random rnd = new Random();
+		int heal = (BASE_HP + rnd.nextInt(3)) - this.terrain.getModifier();
+		return heal;
 	}
 }
