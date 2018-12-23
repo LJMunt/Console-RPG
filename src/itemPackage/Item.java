@@ -72,7 +72,7 @@ public class Item {
 
 	public boolean equals(String otherName) {
 		Boolean equals = false;
-		if (this.name == otherName) {
+		if (this.name.equalsIgnoreCase(otherName)) {
 			equals = true;
 		} else
 			equals = false;

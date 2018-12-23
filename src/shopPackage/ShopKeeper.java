@@ -8,7 +8,7 @@ public class ShopKeeper {
 	private Alignment align;
 	private int age;
 	private Character person;
-	
+
 	public ShopKeeper(String name, Alignment align, int age) {
 		this.name = name;
 		this.align = align;
@@ -16,7 +16,6 @@ public class ShopKeeper {
 		this.person = new Character(this.name, "Shopkeeper", "Merchant", 8, CharClass.Fighter, false);
 
 	}
-	
 
 	public static ShopKeeper createKeeper() {
 		KeeperNames kname = KeeperNames.getRandom();
@@ -25,7 +24,6 @@ public class ShopKeeper {
 		ShopKeeper newKeeper = new ShopKeeper(name, Alignment.getRandom(), age);
 		return newKeeper;
 	}
-
 
 	public String getName() {
 		return name;
@@ -42,6 +40,5 @@ public class ShopKeeper {
 	public int getAge() {
 		return age;
 	}
-
 
 }

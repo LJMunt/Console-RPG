@@ -55,7 +55,8 @@ public class RPG_Driver {
 						System.out.println("Next battle? (y/n)");
 						userChoice = scan.next();
 					} else
-						System.out.println(player.getName() + " has died. Choose or create a new character to continue.");
+						System.out
+								.println(player.getName() + " has died. Choose or create a new character to continue.");
 				}
 				break;
 			case "2":
@@ -122,12 +123,12 @@ public class RPG_Driver {
 		} while (!choice.equalsIgnoreCase("0"));
 		System.out.println("");
 	}
-	
+
 	private static void shopHandler(Character player) {
 		Scanner scan = new Scanner(System.in);
 		Shop shop = new Shop();
 		System.out.println(shop);
 		shop.buyItem(player, scan.next());
 	}
-	
+
 }

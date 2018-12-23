@@ -6,8 +6,7 @@ import java.util.Random;
 //Other classes can easily be added, but need to be synced with Battlefield.chooseClass().
 public enum CharClass {
 
-	Wizard(4, 12, "Fireball", "Magic", "Physical", "Wizard"), 
-	Rogue(4, 8, "Backstab", "Shadow", "Light", "Rogue"),
+	Wizard(4, 12, "Fireball", "Magic", "Physical", "Wizard"), Rogue(4, 8, "Backstab", "Shadow", "Light", "Rogue"),
 	Paladin(5, 6, "Lay on Hands", "Light", "Shadow", "Paladin"),
 	Fighter(6, 16, "Power Attack", "Physical", "Magic", "Fighter");
 
