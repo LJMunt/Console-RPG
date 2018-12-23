@@ -8,17 +8,17 @@ import battlePackage.Battlefield;
 import battlePackage.PlayerParty;
 import characterPackage.Character;
 import itemPackage.ItemNames;
+import shopPackage.Shop;
 
 public class RPG_Driver {
 
 	static PlayerParty party = new PlayerParty();
 
 	public static void main(String[] args) throws IOException {
-		GameTitle();
+		GameUtilities.gameTitle();
 		Scanner scan = new Scanner(System.in);
 		try {
 			System.out.println("");
-			;
 			System.out.println("Welcome to the Console-RPG. Documentation can be found in the README");
 			System.out.println("-------------------------------------------------------------------------");
 			gameMenu(scan);
@@ -32,6 +32,7 @@ public class RPG_Driver {
 
 	public static void gameMenu(Scanner scan) {
 		party.addChar();
+		GameUtilities.clearConsole();
 		Character player = party.getParty()[0];
 		Battlefield mainStage = new Battlefield(player);
 		System.out.println("Press 1 to start the battlemode with your character.\n"
@@ -49,13 +50,12 @@ public class RPG_Driver {
 				String userChoice = scan.next();
 				while (userChoice.equalsIgnoreCase("y") && player.isAlive()) {
 					mainStage.startNextBattle(player);
-					clean();
+					GameUtilities.clean();
 					if (player.isAlive()) {
 						System.out.println("Next battle? (y/n)");
 						userChoice = scan.next();
 					} else
-						System.out
-								.println(player.getName() + " has died. Choose or create a new character to continue.");
+						System.out.println(player.getName() + " has died. Choose or create a new character to continue.");
 				}
 				break;
 			case "2":
@@ -80,6 +80,7 @@ public class RPG_Driver {
 				System.out.println(player);
 				break;
 			case "6":
+				GameUtilities.clearConsole();
 				inventoryHandler(player);
 				break;
 			case "0":
@@ -97,7 +98,7 @@ public class RPG_Driver {
 	}
 
 	// Implements the Inventory menu, where the player is able to choose an action
-	// to take.
+	// like looking at his inventory, using an item or visiting the shop.
 	private static void inventoryHandler(Character player) {
 		System.out.println("Inventory Menu \nPress 1 to view your Inventory.\n" + "Press 2 to use an Item.\n"
 				+ "Press 3 to visit the shop\n" + "Press 0 to return to the main menu.");
@@ -112,7 +113,7 @@ public class RPG_Driver {
 				ItemHandler.chooseItem(player);
 				break;
 			case "3":
-				player.getInventory().addItem(ItemNames.PotionHeal);
+				shopHandler(player);
 			}
 
 			System.out.println("Inventory Menu \nPress 1 to view your Inventory.\n" + "Press 2 to use an Item.\n"
@@ -121,28 +122,12 @@ public class RPG_Driver {
 		} while (!choice.equalsIgnoreCase("0"));
 		System.out.println("");
 	}
-
-	// removes all dead characters from the party.
-	private static void clean() {
-		for (int i = 0; i < party.getCharCount(); i++) {
-			if (party.getParty()[i].isAlive() == false) {
-				party.delChar(i);
-			}
-		}
-
+	
+	private static void shopHandler(Character player) {
+		Scanner scan = new Scanner(System.in);
+		Shop shop = new Shop();
+		System.out.println(shop);
+		shop.buyItem(player, scan.next());
 	}
-
-	private static void GameTitle() {
-		System.out.println(
-				" _______  _______  _        _______  _______  _        _______                 _______  _______  _______ \n"
-						+ "(  ____ \\(  ___  )( (    /|(  ____ \\(  ___  )( \\      (  ____ \\               (  ____ )(  ____ )(  ____ \\\n"
-						+ "| (    \\/| (   ) ||  \\  ( || (    \\/| (   ) || (      | (    \\/               | (    )|| (    )|| (    \\/\n"
-						+ "| |      | |   | ||   \\ | || (_____ | |   | || |      | (__         _____     | (____)|| (____)|| |      \n"
-						+ "| |      | |   | || (\\ \\) |(_____  )| |   | || |      |  __)       (_____)    |     __)|  _____)| | ____ \n"
-						+ "| |      | |   | || | \\   |      ) || |   | || |      | (                     | (\\ (   | (      | | \\_  )\n"
-						+ "| (____/\\| (___) || )  \\  |/\\____) || (___) || (____/\\| (____/\\               | ) \\ \\__| )      | (___) |\n"
-						+ "(_______/(_______)|/    )_)\\_______)(_______)(_______/(_______/               |/   \\__/|/       (_______)\n"
-						+ "                                                                                                         ");
-		System.out.println("A lightweight RPG that runs in RAM.");
-	}
+	
 }

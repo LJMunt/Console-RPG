@@ -2,6 +2,8 @@ package characterPackage;
 
 import java.util.Random;
 
+import itemPackage.Item;
+
 public class Gold {
 
 	private int value = 0;
@@ -20,7 +22,7 @@ public class Gold {
 			System.out.println(this.owner.getName() + " gains " + denom.getName() + " Gold!");
 		}
 	}
-
+	//Uses a custom Algorithm that assigns weight and probability to certain amounts of gold 
 	public void addRandomGold() {
 		Random rnd = new Random();
 		if (this.owner.isAlive() && this.owner.isPlayerControlled()) {
@@ -79,4 +81,11 @@ public class Gold {
 		}
 	}
 
+	public void payGold(Item i) {
+		if (this.value >= i.getValue()) {
+			this.setValue(i.getValue());
+			System.out.println(this.owner.getName()+" pays "+i.getValue());
+		}
+	}
+	
 }

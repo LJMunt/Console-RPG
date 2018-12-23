@@ -106,6 +106,7 @@ public class Character {
 		if (this.health <= 0) {
 			this.alive = false;
 			System.out.println(this.name + " dies.");
+			this.gold.setValue(0);
 		}
 	}
 

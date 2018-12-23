@@ -8,6 +8,7 @@ public class Item {
 	private ItemNames itemName;
 	private static int itemCount;
 	private Character user;
+	private int weight;
 
 	public Item(Character user) {
 		this.user = user;
@@ -15,6 +16,7 @@ public class Item {
 		this.value = this.itemName.getValue();
 		this.name = this.itemName.getName();
 		this.description = this.itemName.getDescription();
+		this.weight = this.itemName.getWeight();
 		itemCount++;
 	}
 
@@ -79,6 +81,10 @@ public class Item {
 
 	public String toString() {
 		return this.name + " " + this.description + " Cost: " + this.value;
+	}
+
+	public ItemNames getItemName() {
+		return itemName;
 	}
 
 }
