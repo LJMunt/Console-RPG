@@ -104,7 +104,7 @@ public class RPG_Driver {
 		System.out.println("Inventory Menu \nPress 1 to view your Inventory.\n" + "Press 2 to use an Item.\n"
 				+ "Press 3 to visit the shop\n" + "Press 0 to return to the main menu.");
 		Scanner scan = new Scanner(System.in);
-		String choice = scan.next();
+		String choice = scan.nextLine();
 		do {
 			switch (choice) {
 			case "1":
@@ -119,7 +119,7 @@ public class RPG_Driver {
 
 			System.out.println("Inventory Menu \nPress 1 to view your Inventory.\n" + "Press 2 to use an Item.\n"
 					+ "Press 3 to visit the shop\n" + "Press 0 to return to the main menu.");
-			choice = scan.next();
+			choice = scan.nextLine();
 		} while (!choice.equalsIgnoreCase("0"));
 		System.out.println("");
 	}
@@ -128,7 +128,7 @@ public class RPG_Driver {
 		Scanner scan = new Scanner(System.in);
 		Shop shop = new Shop();
 		System.out.println(shop);
-		shop.buyItem(player, scan.next());
+		shop.buyItem(player, scan.nextLine());
 	}
 
 }
