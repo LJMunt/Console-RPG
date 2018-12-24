@@ -5,17 +5,21 @@ import java.util.Scanner;
 
 import characterPackage.CharClass;
 import characterPackage.Character;
+import characterPackage.Feats;
+import shopPackage.Shop;
 
-public class Battlefield {
+public class BattleField {
 
 	private Terrain terrain;
 	private Character enemy;
 	private static int battleCount = 0;
 	public static final int BASE_HP = 8;
-	private final static int maxHeals = 5;
-	private static int playerHealCount = 0;
+	private static int maxHeals = 3;
+	private static int playerHealCount = maxHeals;
 
-	public Battlefield(Character player) {
+	// Useless Constructor. Should probably do this differently. Keeping him here if
+	// i'm adding more Variables in BattleField.
+	public BattleField(Character player) {
 		System.out.println("You are... ");
 		System.out.println(player);
 
@@ -26,29 +30,31 @@ public class Battlefield {
 	public void startNextBattle(Character player) {
 		this.terrain = Terrain.getRandom();
 		System.out.println("the Terrain is: " + this.terrain.getName());
-		int enemyLevel = (Battlefield.battleCount / 3) + 1;
+		int enemyLevel = (BattleField.battleCount / 3) + 1;
 		this.enemy = this.createEnemy(enemyLevel);
-		System.out.println("The" + (Battlefield.battleCount > 0 ? " next " : " first ")
+		System.out.println("The" + (BattleField.battleCount > 0 ? " next " : " first ")
 				+ "battle is about to beginn. Your enemy is: \n" + this.enemy);
 		this.Battle(player);
 		battleCount++;
-		playerHealCount = 0;
+		playerHealCount = maxHeals;
 		player.getGold().addRandomGold();
 		player.levelUp();
+		Shop.resetShopCount();
 	}
 
 	public static int getBattleCount() {
 		return battleCount;
 	}
 
-	// Creates an Enemy at random from the enum Enemies and EnemyTitles.
+	// Creates an Enemy at random from the enum Enemies and EnemyTitles. Der Feat
+	// wird aus dem Enum feats genommen.
 	private Character createEnemy(int lvl) {
 		Random rnd = new Random();
 		Enemies enemyStrings = Enemies.getRandom();
 		EnemyTitles titles = EnemyTitles.getRandom();
 		String enemyName = enemyStrings.getName() + " the " + titles.getTitle();
 		String enemyBg = enemyStrings.getBackground();
-		String enemyFeat = enemyStrings.getFeat();
+		String enemyFeat = Feats.getRandom().getName();
 		CharClass enemyClass = CharClass.getRandom();
 		int enemyHP = BASE_HP + enemyClass.getMeleePower() + rnd.nextInt(6) + 1;
 		Character enemy = new Character(enemyName, enemyBg, enemyFeat, enemyHP, enemyClass, false);
@@ -66,8 +72,8 @@ public class Battlefield {
 		System.out.println("Enter your Background: ");
 		String background = scan.nextLine();
 		System.out.println("Enter your feat: ");
-		String feat = scan.next();
-		CharClass playerClass = Battlefield.chooseClass();
+		String feat = scan.nextLine();
+		CharClass playerClass = BattleField.chooseClass();
 		int hp = BASE_HP + playerClass.getMeleePower() + rnd.nextInt(4) + 1;
 		Character playerChar = new Character(name, background, feat, hp, playerClass, true);
 		return playerChar;
@@ -78,7 +84,8 @@ public class Battlefield {
 	private static CharClass chooseClass() {
 		Scanner scan = new Scanner(System.in);
 		CharClass playClass = null;
-		System.out.println("Choose your Class. you may choose from: \n\tWizard \tFighter \tPaladin \tRogue");
+		System.out.println("Choose your Class. you may choose from the following:");
+		System.out.println("Wizard   Fighter   Paladin   Rogue   Inquisitor   Death Knight");
 		String choice = scan.nextLine();
 		switch (choice) {
 		case "Wizard":
@@ -93,9 +100,15 @@ public class Battlefield {
 		case "Rogue":
 			playClass = CharClass.Rogue;
 			break;
+		case "Inquisitor":
+			playClass = CharClass.Inquisitor;
+			break;
+		case "Death Knight":
+			playClass = CharClass.Deathknight;
+			break;
 		default:
 			System.out.println("Class not recognized.");
-			playClass = Battlefield.chooseClass();
+			playClass = BattleField.chooseClass();
 		}
 		return playClass;
 	}
@@ -115,11 +128,11 @@ public class Battlefield {
 				player.attack(this.enemy);
 				break;
 			case "2":
-				if (playerHealCount <= 5) {
+				if (playerHealCount > 0) {
+					playerHealCount--;
 					player.heal(playerHeal);
-					int remainingHeals = maxHeals - playerHealCount;
+					int remainingHeals = playerHealCount;
 					System.out.println("Remaining Heals: " + remainingHeals);
-					playerHealCount++;
 				} else
 					System.out.println("You have expended all your heals in this battle.");
 				break;
@@ -179,4 +192,20 @@ public class Battlefield {
 		int heal = (BASE_HP + rnd.nextInt(3)) - this.terrain.getModifier();
 		return heal;
 	}
+
+	public static int getMaxHeals() {
+		return maxHeals;
+	}
+
+	public static void setMaxHeals(int maxHeals) {
+		if (maxHeals > 0) {
+			BattleField.maxHeals = maxHeals;
+		}
+	}
+
+	public static void setBattleCount(int battleCount) {
+		battleCount = BattleField.battleCount;
+
+	}
+
 }

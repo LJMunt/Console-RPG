@@ -1,8 +1,6 @@
 package shopPackage;
 
-import java.util.Scanner;
-
-import battlePackage.Battlefield;
+import battlePackage.BattleField;
 import itemPackage.Item;
 import itemPackage.ItemNames;
 import characterPackage.Character;
@@ -23,7 +21,7 @@ public class Shop {
 
 	private int determineMax() {
 		int max = 1;
-		int mod = Battlefield.getBattleCount();
+		int mod = BattleField.getBattleCount();
 		if (mod < 100) {
 			max = (mod / 5) + 1;
 		} else {
@@ -48,35 +46,44 @@ public class Shop {
 	}
 
 	private int calculateItemWeight() {
-		int itemWeight = (Battlefield.getBattleCount() / 4) + 1;
+		int itemWeight = (BattleField.getBattleCount() / 4) + 1;
 		return itemWeight;
 	}
 
-	// TODO Fix this
 	private void deleteItem(Integer index) {
 		this.itemList[index] = null;
 	}
-
+	
+	//TODO Fix this.
+	// Something breaks here when trying to buy multiple items.
 	private Integer findIndex(String name) {
 		Integer index = 1;
 		for (int i = 0; i < this.itemList.length;) {
+			System.out.println(i);
 			if (this.itemList[i].equals(name)) {
 				index = i;
+				System.out.println(i);
 				return index;
 			} else {
 				index = null;
 				return index;
 			}
 		}
-		return null;
+		return index;
 	}
 
 	public void buyItem(Character player, String choice) {
 		Integer index = this.findIndex(choice);
 		if (index != null) {
-			player.getInventory().addItem(this.itemList[index].getItemName());
-			System.out.println(player.getName() + " buys " + this.itemList[index].getName());
-			this.deleteItem(index);
+			if (player.getGold().getValue() >= this.itemList[index].getValue()) {
+				player.getInventory().addItem(this.itemList[index].getItemName());
+				System.out.println(player.getName() + " buys " + this.itemList[index].getName());
+				player.getGold().payGold(this.itemList[index]);
+				this.deleteItem(index);
+			} else {
+				System.out.println(this.itemList[index].getName() + " costs too much. You need "
+						+ this.itemList[index].getValue() + " Gold.");
+			}
 		} else {
 			System.out.println("item not found.");
 		}
@@ -84,14 +91,23 @@ public class Shop {
 
 	public String toString() {
 		String returnString = "Items in the Shop of " + this.keeper.getName() + " : \n";
-		for (int i = 0; i < itemList.length; i++) {
-			if (itemList[i] == null)
+		for (int i = 0; i < this.itemList.length; i++) {
+			if (this.itemList[i] == null)
 				returnString += "";
 			else
-				returnString += itemList[i].getName() + "\n";
+				returnString += this.itemList[i].getName() + "  |  Cost: " + this.itemList[i].getValue() + " Gold "
+						+ "\n";
 		}
 		return returnString;
 
+	}
+
+	public static int getShopCount() {
+		return Shop.shopCount;
+	}
+
+	public static void resetShopCount() {
+		Shop.shopCount = 0;
 	}
 
 }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import battlePackage.Battlefield;
+import battlePackage.BattleField;
 import battlePackage.PlayerParty;
 import characterPackage.Character;
 import itemPackage.ItemNames;
@@ -34,7 +34,7 @@ public class RPG_Driver {
 		party.addChar();
 		GameUtilities.clearConsole();
 		Character player = party.getParty()[0];
-		Battlefield mainStage = new Battlefield(player);
+		BattleField mainStage = new BattleField(player);
 		System.out.println("Press 1 to start the battlemode with your character.\n"
 				+ "Press 2 to create another character and add them to the party.\n"
 				+ "Press 3 to list all the characters currently in your party.\n"
@@ -46,7 +46,7 @@ public class RPG_Driver {
 			switch (playerChoice) {
 			case "1":
 				System.out
-						.println("Start " + (Battlefield.getBattleCount() > 0 ? " next" : " first") + " battle? (y/n)");
+						.println("Start " + (BattleField.getBattleCount() > 0 ? " next" : " first") + " battle? (y/n)");
 				String userChoice = scan.next();
 				while (userChoice.equalsIgnoreCase("y") && player.isAlive()) {
 					mainStage.startNextBattle(player);
@@ -87,7 +87,7 @@ public class RPG_Driver {
 			case "0":
 				break;
 			default:
-				System.out.println("Comand not recognized. Try again.");
+				System.out.println("Command not recognized. Try again.");
 			}
 			System.out.println("Press 1 to start the battlemode with your character.\n"
 					+ "Press 2 to create another character and add them to the party.\n"
@@ -101,6 +101,7 @@ public class RPG_Driver {
 	// Implements the Inventory menu, where the player is able to choose an action
 	// like looking at his inventory, using an item or visiting the shop.
 	private static void inventoryHandler(Character player) {
+		GameUtilities.clearConsole();
 		System.out.println("Inventory Menu \nPress 1 to view your Inventory.\n" + "Press 2 to use an Item.\n"
 				+ "Press 3 to visit the shop\n" + "Press 0 to return to the main menu.");
 		Scanner scan = new Scanner(System.in);
@@ -125,10 +126,27 @@ public class RPG_Driver {
 	}
 
 	private static void shopHandler(Character player) {
-		Scanner scan = new Scanner(System.in);
-		Shop shop = new Shop();
-		System.out.println(shop);
-		shop.buyItem(player, scan.nextLine());
+		handleItemSale(player);
+
+	}
+
+	public static void handleItemSale(Character player) {
+		if (Shop.getShopCount() < 1) {
+			Scanner scan = new Scanner(System.in);
+			Shop shop = new Shop();
+			System.out.println(shop);
+			System.out.println(
+					"Enter the Item you wish to buy. Leave the shop with 0. You can only enter the shop once between Battles.");
+			String choice = scan.nextLine();
+			while (!choice.equals("0")) {
+				shop.buyItem(player, choice);
+				System.out.println(shop);
+				choice = scan.nextLine();
+				GameUtilities.clearConsole();
+			}
+		} else {
+			System.out.println("You have already visited the shop today. Finish a battle before going there again.");
+		}
 	}
 
 }

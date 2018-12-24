@@ -11,9 +11,6 @@ public class Gold {
 
 	public Gold(Character owner) {
 		this.owner = owner;
-		if (this.owner.getFeat().equalsIgnoreCase("wealthy")) {
-			this.addGold(Denomination.TEN);
-		}
 	}
 
 	public void addGold(Denomination denom) {
@@ -86,7 +83,7 @@ public class Gold {
 	public void payGold(Item i) {
 		if (this.value >= i.getValue()) {
 			this.setValue(i.getValue());
-			System.out.println(this.owner.getName() + " pays " + i.getValue());
+			System.out.println(this.owner.getName() + " pays " + i.getValue() + " Gold.");
 		}
 	}
 

@@ -15,7 +15,7 @@ public class PlayerParty {
 	// adds a Character to the party.
 	public void addChar() {
 		if (this.charCount < this.MAX_SIZE) {
-			Character newPlayer = Battlefield.CharacterCreation();
+			Character newPlayer = BattleField.CharacterCreation();
 			this.party[this.charCount] = newPlayer;
 			charCount++;
 		} else

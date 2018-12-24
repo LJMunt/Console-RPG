@@ -3,12 +3,14 @@ package characterPackage;
 import java.util.Random;
 
 //Character classes, used by player and enemy.
-//Other classes can easily be added, but need to be synced with Battlefield.chooseClass().
+//Other classes can easily be added, but need to be synced with BattleField.chooseClass().
 public enum CharClass {
 
 	Wizard(4, 12, "Fireball", "Magic", "Physical", "Wizard"), Rogue(4, 8, "Backstab", "Shadow", "Light", "Rogue"),
 	Paladin(5, 6, "Lay on Hands", "Light", "Shadow", "Paladin"),
-	Fighter(6, 16, "Power Attack", "Physical", "Magic", "Fighter");
+	Fighter(6, 16, "Power Attack", "Physical", "Magic", "Fighter"),
+	Inquisitor(5, 12, "Smite", "Holy", "Unholy", "Inquisitor"),
+	Deathknight(5, 16, "Death Strike", "Unholy", "Holy", "Death Knight");
 
 	private String ability, type, immunity;
 	private int meleePower, damageDie;
@@ -51,4 +53,5 @@ public enum CharClass {
 	public static CharClass getRandom() {
 		return CharClass.values()[rnd.nextInt(CharClass.values().length)];
 	}
+
 }

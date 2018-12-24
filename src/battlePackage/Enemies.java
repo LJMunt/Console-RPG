@@ -4,24 +4,20 @@ import java.util.Random;
 
 public enum Enemies {
 	// All possible Enemy Names. Gender is not used at the moment.
-	Algir(false, "Warrior", "Corrupted"), Arik(false, "Hero", "Great Power"), Torvald(false, "Smith", "Evil"),
-	Akahan(false, "Noble", "Homosexual"), Ulaban(false, "Villager", "Run"), Grom(false, "Servant", "Submissive"),
-	Gror(false, "Hero", "Great Power"), Kritzix(false, "Merchant", "Conniving"), Alvarion(false, "Priest", "Holy"),
-	Marcian(false, "Knight", "Unholy"), Sogrim(false, "Dwarf", "Stonelord"), Van(false, "Artist", "Performance Artist"),
-	Erza(true, "Warrior", "Holy"), Avalia(true, "Priest", "Unholy"), Selena(true, "Noble", "Corrupted"),
-	Kyriana(true, "Goddess", "Good"), Ayatra(true, "Goddess", "Corrupted"), Dorena(true, "Villager", "Run"),
-	Narmora(true, "Merchant", "Submissive"), Namira(true, "Hero", "Corrupted"), Leandra(true, "Smith", "Stonelord"),
-	Grotoka(true, "Dwarf", "Homosexual"), Eirene(true, "Hero", "Holy");
+	Algir(false, "Warrior"), Arik(false, "Hero"), Torvald(false, "Smith"), Akahan(false, "Noble"),
+	Ulaban(false, "Villager"), Grom(false, "Servant"), Gror(false, "Hero"), Kritzix(false, "Merchant"),
+	Alvarion(false, "Priest"), Marcian(false, "Knight"), Sogrim(false, "Dwarf"), Van(false, "Artist"),
+	Erza(true, "Warrior"), Avalia(true, "Priest"), Selena(true, "Noble"), Kyriana(true, "Goddess"),
+	Dorena(true, "Villager"), Narmora(true, "Merchant"), Namira(true, "Hero"), Leandra(true, "Smith"),
+	Grotoka(true, "Dwarf"), Eirene(true, "Hero");
 
 	private boolean female;
 	private String background;
-	private String feat;
 	private static Random rnd = new Random();
 
-	private Enemies(boolean female, String background, String feat) {
+	private Enemies(boolean female, String background) {
 		this.female = female;
 		this.background = background;
-		this.feat = feat;
 	}
 
 	public boolean isFemale() {
@@ -30,10 +26,6 @@ public enum Enemies {
 
 	public String getBackground() {
 		return background;
-	}
-
-	public String getFeat() {
-		return feat;
 	}
 
 	// Chooses a random name.

@@ -3,6 +3,7 @@ package driverPackage;
 import java.util.Random;
 import java.util.Scanner;
 import characterPackage.Character;
+import itemPackage.ItemNames;
 
 public abstract class ItemHandler {
 	private final static int HEAL_CONSTANT = 12;
@@ -56,9 +57,9 @@ public abstract class ItemHandler {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter the name of the Item you wish to use.");
 		String itemChoice = scan.nextLine();
-		String healPot = "Potion of Healing";
-		String invPot = "Potion of Invisiblity";
-		String strPot = "Potion of unnatural Strength";
+		String healPot = ItemNames.PotionHeal.getName();
+		String invPot = ItemNames.InvisPot.getName();
+		String strPot = ItemNames.StrengthPot.getName();
 		switch (itemChoice) {
 		case "Potion of Healing":
 			handlePotionHeal(player, healPot);

@@ -2,12 +2,13 @@ package characterPackage;
 
 import java.util.Random;
 
-import battlePackage.Battlefield;
+import battlePackage.BattleField;
 import itemPackage.CharacterInventory;
 
-//this is a massive Class. Could probably be made a little bit smaller (but i'll extend it.) Used to generate a character.
+//this is a massive Class. Could probably be made a little bit smaller. Used to generate a character.
 public class Character {
-	Random rand = new Random();
+	private final int BASE_AC = 10;
+	private Random rand = new Random();
 	private String name, background, feat;
 	private int health;
 	private boolean alive;
@@ -19,6 +20,7 @@ public class Character {
 	private Gold gold;
 	private boolean playerControlled;
 	private CharacterInventory inv;
+	private String charResistance;
 
 	public Character(String name, String background, String feat, int health, CharClass characterClass,
 			boolean playerControlled) {
@@ -30,10 +32,12 @@ public class Character {
 		this.alive = true;
 		this.playerControlled = playerControlled;
 		this.power = this.characterClass.getMeleePower();
-		this.setArmorClass(this.power + 10 + rand.nextInt(3) + 1);
+		this.charResistance = this.characterClass.getImmunity();
+		this.setArmorClass(this.power + BASE_AC + rand.nextInt(3) + 1);
 		this.inv = new CharacterInventory(this);
 		this.gold = new Gold(this);
 		characterCount++;
+		FeatHandler.parseFeat(this);
 	}
 
 	public int getLevel() {
@@ -53,7 +57,7 @@ public class Character {
 		return alive;
 	}
 
-	public double getHealth() {
+	public int getHealth() {
 		return health;
 	}
 
@@ -79,7 +83,7 @@ public class Character {
 
 	// Implements the damage a player takes.
 	private void damage(int dmg, String type) {
-		String charResistance = this.characterClass.getImmunity();
+		String charResistance = this.charResistance;
 		if (alive == true) {
 			if (!type.equals(charResistance)) {
 				this.health -= dmg;
@@ -158,7 +162,7 @@ public class Character {
 		this.inflictDamage(critdmg, otherCharacter, "Crit Damage");
 	}
 
-	// Calculates the characters attackThrow that is evaluated by hit. Gives out 0
+	// Calculates the characters attackThrow that is evaluated by hit. returns 0
 	// if the char fumbles and 1 if he crits.
 	private int attackThrow() {
 		Random rand = new Random();
@@ -217,7 +221,7 @@ public class Character {
 	// Determines if the character gets a level up and uses levelModify() to apply
 	// the changes.
 	public void levelUp() {
-		if (this.alive && Battlefield.getBattleCount() % 3 == 0) {
+		if (this.alive && BattleField.getBattleCount() % 3 == 0) {
 			this.level++;
 			if (this.playerControlled)
 				System.out.println(this.name + " is now level " + this.level);
@@ -268,6 +272,20 @@ public class Character {
 
 	public Gold getGold() {
 		return gold;
+	}
+
+	public String getCharResistance() {
+		return charResistance;
+	}
+
+	public void setCharResistance(String charResistance) {
+		this.charResistance = charResistance;
+	}
+
+	public void setHealth(int hp) {
+		if (hp >= 0) {
+			this.health = hp;
+		}
 	}
 
 }
